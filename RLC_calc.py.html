@@ -1,0 +1,71 @@
+
+# coding: utf-8
+
+# # This code calculates the resonant frequency of an RLC circuit, for a fixed L and variable capacitor.
+# 
+# ## It also calculates the inductance of a coil using its geometrical measures
+
+# In[48]:
+
+
+import pandas as pd
+import datetime
+import csv
+import matplotlib
+import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
+import math
+import numpy as np
+
+
+# # Spooky Tesla Radio: L= 690 nH, C=60-141 pF 
+# ## 500 - 800 kHz 
+# ### Fixed inductance L= 680nH
+# ### Variable capacitance C= (10,..., 140 pF)
+
+# In[49]:
+
+
+#L = 1800E-6
+L = 680E-6 #inductance in H
+#C = 60E-12 #capacitance in F
+C = np.array([10E-12, 20E-12, 30E-12, 40E-12, 50E-12, 60E-12, 70E-12, 80E-12, 90E-12, 100E-12, 110E-12, 120E-12, 140E-12, 150E-12])
+print(C[0])
+
+
+# In[50]:
+
+
+i=0;
+for i in range (14):
+    #plt.figure(1)
+    plt.xlabel('C')
+    plt.ylabel('Frequency (kHz)')
+    fr=(1E-3)*(1/(2*np.pi*np.sqrt(L*C[i])))
+    print ("Frequency [kHz]:" ,fr) #print for kHz
+    print("C value for fixed L:",C[i])
+    plt.plot(C[i], fr, 'ro')
+    
+#Legend and limits
+plt.legend(loc=3,fancybox=True,shadow=True)
+#plt.xlim(7e-15, 1e-13)
+#plt.ylim(400, 2000)
+plt.show()
+
+
+# # Inductance L according to geometrical properties of the coil
+
+# In[52]:
+
+
+mu_R = 1 # permitividad electrica del aire
+turns = 210
+radius = 0.02 # in meters
+area = np.pi*np.square(radius)
+print("area:",area)
+length = 0.1 #in meters
+
+L_coil = mu_R*(np.divide((np.square(turns)*area),length))*1.26E-6
+print("L:", L_coil*1E6 ,"uH")
+print(L_coil ,"H")
+
